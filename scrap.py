@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, date
 import pandas as pd
 
+#akig
 
 today = date.today()
 date = today.strftime("%d/%m/%Y")
