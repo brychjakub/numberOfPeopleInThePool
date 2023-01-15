@@ -3,7 +3,8 @@ import re
 from bs4 import BeautifulSoup
 from datetime import datetime, date
 import pandas as pd
-from apscheduler.schedulers.background import BackgroundScheduler
+import schedule
+import time
 
 
 today = date.today()
@@ -29,61 +30,18 @@ pTag = str(found.find_all("p")[-1])
 numberOfPeopleInThePool = (re.findall(r'\d+', pTag))[0]
 print(numberOfPeopleInThePool)
 
-scheduler = BackgroundScheduler()
 
-
-@scheduler.scheduled_job('interval', seconds=10)
 def intoCsv():
-    if day == "Monday":
             day_data = [[current_time, numberOfPeopleInThePool]]
             df1 = pd.DataFrame(day_data, columns=['Time', 'Number of people'])
             result = pd.concat([df1])
-            result.to_csv('monday.csv', index=False, mode="a")
+            result.to_csv(f'{day}.csv', index=False, mode="a")
 
-                    
+schedule.every(5).minutes.do
+schedule.every(5).minutes.do(intoCsv)
+#schedule.every().hour.do(job)
+#schedule.every().day.at("10:30").do(job)
 
-    if day == "Tuesday":
-            day_data = [[current_time, numberOfPeopleInThePool]]
-            df1 = pd.DataFrame(day_data, columns=['Time', 'Number of people'])
-            result = pd.concat([df1])
-            result.to_csv('tuesday.csv', index=False, mode="a")
-
-                    
-
-    if day == "Wednesday":
-            day_data = [[current_time, numberOfPeopleInThePool]]
-            df1 = pd.DataFrame(day_data, columns=['Time', 'Number of people'])
-            result = pd.concat([df1])
-            result.to_csv('wednesday.csv', index=False, mode="a")
-
-
-    if day == "Thursday":
-        day_data = [[current_time, numberOfPeopleInThePool]]
-        df1 = pd.DataFrame(day_data, columns=['Time', 'Number of people'])
-        result = pd.concat([df1])
-        result.to_csv('thursday.csv', index=False, mode="a")
-
-
-    if day == "Friday":
-        day_data = [[current_time, numberOfPeopleInThePool]]
-        df1 = pd.DataFrame(day_data, columns=['Time', 'Number of people'])
-        result = pd.concat([df1])
-        result.to_csv('Friday.csv', index=False, mode="a")
-
-
-    if day == "Satturday":
-        day_data = [[current_time, numberOfPeopleInThePool]]
-        df1 = pd.DataFrame(day_data, columns=['Time', 'Number of people'])
-        result = pd.concat([df1])
-        result.to_csv('Satturday.csv', index=False, mode="a")
-
-
-    if day == "Sunday":
-        day_data = [[current_time, numberOfPeopleInThePool]]
-        df1 = pd.DataFrame(day_data, columns=['Time', 'Number of people'])
-        result = pd.concat([df1])
-        result.to_csv('sunday.csv', index=False, mode="a")
-
-
-
-scheduler.start()
+while 1:
+    schedule.run_pending()
+    time.sleep(1)
