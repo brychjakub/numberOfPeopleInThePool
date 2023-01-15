@@ -36,7 +36,7 @@ def intoCsv():
             result = pd.concat([df1])
             result.to_csv(f'{day}.csv', index=False, mode="a")
 
-schedule.every(15).seconds.do(intoCsv)
+schedule.every(30).minutes.do(intoCsv)
 #schedule.every().hour.do(job)
 #schedule.every().day.at("10:30").do(job)
 
