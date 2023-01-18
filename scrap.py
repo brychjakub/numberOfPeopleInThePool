@@ -6,18 +6,23 @@ import pandas as pd
 import schedule
 import time
 
+
 def intoCsv():
             today = date.today()
-            date_today = today.strftime("%d/%m/%Y")
             day = today.strftime("%A")
-            print(day)
 
             now = datetime.now()
 
             current_time = now.strftime("%H:%M:%S")
             print(current_time)
 
-            res = requests.get("https://www.kravihora-brno.cz/kryta-plavecka-hala")
+            try:
+                res = requests.get("https://www.kravihora-brno.cz/kryta-plavecka-hala")
+                #pokud nebude fungovat tento try except změnit na    requests.get(url, headers = {}, verify=False)
+            except requests.exceptions.ConnectionError:
+                    requests.status_codes = "Connection refused"
+
+
             soup = BeautifulSoup(res.text, "html.parser")
 
             #HTML class where is the info I need
@@ -38,8 +43,9 @@ def intoCsv():
 
 schedule.every(30).minutes.do(intoCsv)
 #schedule.every().hour.do(job)
-#schedule.every().day.at("10:30").do(job)
+#schedule.every().day.at("22:00").do()
 
 while 1:
     schedule.run_pending()
-    time.sleep(1)
+    time.sleep(10)
+
