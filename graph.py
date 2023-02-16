@@ -17,8 +17,8 @@ data = data[data["Number of people"] != 0]
 # Sort the DataFrame based on the "Number of people" column
 data = data.sort_values(by=["Number of people"])
 
-# Assign a unique rank to each value in the "Number of people" column
-data["Rank"] = data["Number of people"].rank(method="dense")
+# Assign a unique rank to each value in the "Number of people" column, UPDATE: commented out as useless for now
+#data["Rank"] = data["Number of people"].rank(method="dense")
 
 # Plot the bar chart with sorted y-axis values
 plt.bar(data["Time"], data['Number of people'])
