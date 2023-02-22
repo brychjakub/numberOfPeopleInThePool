@@ -1,6 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import csv
+from matplotlib.pyplot import figure
+import numpy as np
 
 
 # necessary to display the y axis in the correct order
@@ -28,7 +30,7 @@ def graph(csv_file):
 
     # Convert the "Time" column to numerical values
     data["Time"] = pd.to_numeric(data["Time"])
-
+    data["Number of people"] = pd.to_numeric(data["Number of people"])
     # Remove all values from "Time" column that are less than or equal to 5 and more than or equal to 22
     data = data[(data["Time"] > 5) & (data["Time"] < 22)]
 
@@ -36,13 +38,20 @@ def graph(csv_file):
     data = data[data["Number of people"] != 0]
 
     # Sort the DataFrame based on the "Number of people" column
-    data = data.sort_values(by=["Number of people"], ascending=True)
+    data = data.sort_values(by=["Number of people"])
+
+    figure(figsize=(20, 18))
+    
+    bars = plt.bar(data["Time"], height=data["Number of people"])
 
     # Plot the bar chart with sorted y-axis values
-    plt.bar(data["Time"], data['Number of people'])
-    plt.xlabel('Time')
-    plt.ylabel('Number of People')
-    plt.title('Number of people in the pool over time')
+    plt.xlabel('Time',fontsize=14)
+    plt.ylabel('Number of People', fontsize=14)
+    plt.title('Number of people in the pool over time',fontsize=14)
+
+    for bar in bars:
+            yval = bar.get_height()
+            plt.text(bar.get_x(), yval+1, yval, fontsize=14)
     plt.show()
 
 
@@ -51,7 +60,7 @@ def call(csv_file):
     graph(csv_file)
 
     
-call("Sunday.csv")
+call("Saturday.csv")
 
     
 
